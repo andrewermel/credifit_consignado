@@ -3,6 +3,7 @@ import { ScoreService } from './score/score.service';
 import { PaymentService } from './payment/payment.service';
 
 @Module({
-  providers: [ScoreService, PaymentService]
+  providers: [ScoreService, PaymentService],
+  exports: [ScoreService, PaymentService],
 })
 export class ExternalServicesModule {}
