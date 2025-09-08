@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Empresas conveniadas
+model Company {
+  id          String  @id @default(uuid())
+  cnpj        String  @unique @db.VarChar(14)
+  razaoSocial String  @db.VarChar(255)
+  nomeCompleto String @db.VarChar(255)
+  cpf         String  @unique @db.VarChar(11)
+  email       String  @unique @db.VarChar(255)
+  senha       String  @db.VarChar(255)
+  
+  // Relacionamentos
+  employees   Employee[]
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("companies")
+}
+
+// Funcionários das empresas
+model Employee {
+  id           String  @id @default(uuid())
+  nomeCompleto String  @db.VarChar(255)
+  cpf          String  @unique @db.VarChar(11)
+  email        String  @unique @db.VarChar(255)
+  senha        String  @db.VarChar(255)
+  salario      Decimal @db.Decimal(10,2)
+  
+  // Relacionamentos
+  companyId    String
+  company      Company @relation(fields: [companyId], references: [id])
+  loans        Loan[]
+  
+  // Timestamps
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("employees")
+}
+
+// Empréstimos
+model Loan {
+  id              String      @id @default(uuid())
+  valorSolicitado Decimal     @db.Decimal(10,2)
+  valorAprovado   Decimal?    @db.Decimal(10,2)
+  numeroParcelas  Int
+  status          LoanStatus  @default(PENDING)
+  scoreConsultado Int?
+  dataSolicitacao DateTime    @default(now())
+  dataPagamento   DateTime?
+  
+  // Relacionamentos
+  employeeId      String
+  employee        Employee    @relation(fields: [employeeId], references: [id])
+  installments    Installment[]
+  
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@map("loans")
+}
+
+// Parcelas dos empréstimos
+model Installment {
+  id             String            @id @default(uuid())
+  numeroParcela  Int
+  valor          Decimal           @db.Decimal(10,2)
+  dataVencimento DateTime
+  status         InstallmentStatus @default(PENDING)
+  
+  // Relacionamentos
+  loanId         String
+  loan           Loan              @relation(fields: [loanId], references: [id])
+  
+  // Timestamps
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  
+  @@map("installments")
+}
+
+// Enums
+enum LoanStatus {
+  PENDING     // Aguardando análise
+  APPROVED    // Aprovado
+  REJECTED    // Rejeitado
+  PAID        // Pago
+  
+  @@map("loan_status")
+}
+
+enum InstallmentStatus {
+  PENDING     // Aguardando pagamento
+  PAID        // Pago
+  OVERDUE     // Em atraso
+  
+  @@map("installment_status")
+}
