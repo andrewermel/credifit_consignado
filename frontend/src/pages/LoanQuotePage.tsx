@@ -345,6 +345,16 @@ export const LoanQuotePage: React.FC = () => {
     return employees.find(emp => emp.id === selectedEmployeeId);
   };
 
+  // Função para calcular parcelas dinamicamente baseado no valor selecionado
+  const calculateDynamicInstallments = () => {
+    if (!quote?.elegivel || !selectedValor) return [];
+    
+    return quote.opcoesParcelas.map(option => ({
+      ...option,
+      valorParcela: selectedValor / option.numeroParcelas
+    }));
+  };
+
   if (loadingEmployees) {
     return (
       <Container>
@@ -410,7 +420,7 @@ export const LoanQuotePage: React.FC = () => {
 
               <OptionsTitle>Opções de Parcelamento</OptionsTitle>
               <OptionsList>
-                {quote.opcoesParcelas.map((option, index) => (
+                {calculateDynamicInstallments().map((option, index) => (
                   <OptionCard 
                     key={index}
                     $selected={selectedParcelas === option.numeroParcelas}
