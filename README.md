@@ -39,10 +39,15 @@ credifit_consignado/
 - ✅ **Estrutura base do NestJS**
 - ✅ **Modelagem do banco de dados (Prisma)**
 - ✅ **Configuração do PostgreSQL**
-- ✅ **Módulos CRUD para Companies, Employees e Loans**
+- ✅ **Módulos CRUD completos para Companies, Employees e Loans**
+- ✅ **Services implementados com validações de negócio**
 - ✅ **Documentação automática com Swagger**
 - ✅ **Configuração de variáveis de ambiente**
 - ✅ **Integração com APIs externas (Score e Payment)**
+- ✅ **Sistema completo de empréstimos consignados**
+- ✅ **Criptografia de senhas com bcrypt**
+- ✅ **Validações de unicidade (CNPJ, CPF, email)**
+- ✅ **Tratamento de erros e relacionamentos**
 
 ## 🔧 Como Executar
 
@@ -115,12 +120,36 @@ A documentação completa da API está disponível em `/api/docs` quando o servi
 
 ## 🚧 Próximos Passos
 
-- [ ] Implementar DTOs e validações
-- [ ] Desenvolver lógica de negócio dos empréstimos
-- [ ] Integrar APIs externas (Score e Payment)
 - [ ] Criar frontend React
 - [ ] Implementar testes automatizados
+- [ ] Melhorias na documentação
 - [ ] Deploy e containerização completa
+- [ ] Implementar autenticação JWT
+- [ ] Cache e otimizações de performance
+
+## 🧪 Endpoints Disponíveis
+
+### 🏢 **Empresas**
+- `POST /companies` - Criar empresa
+- `GET /companies` - Listar empresas
+- `GET /companies/:id` - Buscar empresa
+- `PATCH /companies/:id` - Atualizar empresa
+- `DELETE /companies/:id` - Remover empresa
+
+### 👤 **Funcionários**
+- `POST /employees` - Criar funcionário
+- `GET /employees` - Listar funcionários
+- `GET /employees/:id` - Buscar funcionário
+- `PATCH /employees/:id` - Atualizar funcionário
+- `DELETE /employees/:id` - Remover funcionário
+
+### 💰 **Empréstimos**
+- `POST /loans/quote` - Consultar cotação
+- `POST /loans` - Solicitar empréstimo
+- `GET /loans` - Listar empréstimos
+- `GET /loans/:id` - Detalhes do empréstimo
+- `PATCH /loans/:id` - Atualizar empréstimo
+- `DELETE /loans/:id` - Remover empréstimo
 
 ## 👨‍💻 Desenvolvido por
 
@@ -128,4 +157,13 @@ Andrew Ermel - Desafio técnico Credifit 2025
 
 ---
 
-**Status**: 🚧 Em desenvolvimento - Fase 1 concluída (Setup e estrutura base)
+**Status**: � **FUNCIONAL** - Backend completo implementado e testado
+
+### 🎯 **Principais Recursos:**
+- **Sistema completo de empréstimos consignados**
+- **Validação automática por score e salário**
+- **Margem de 35% do salário**
+- **Parcelamento de 1 a 4x**
+- **Integração com APIs externas**
+- **Documentação Swagger completa**
+- **Validações de segurança implementadas**
