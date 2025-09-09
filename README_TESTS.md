@@ -3,10 +3,10 @@
 ## Resumo dos Testes Implementados
 
 ### 📊 Estatísticas
-- **Total de Testes**: 47 testes
-- **Suites de Teste**: 5
+- **Total de Testes**: 92 testes
+- **Suites de Teste**: 7
 - **Status**: ✅ Todos os testes passando
-- **Cobertura**: Serviços principais do backend
+- **Cobertura**: Todos os serviços do backend
 
 ### 🧪 Arquivos de Teste
 
@@ -70,6 +70,48 @@ it('should return quote for eligible employee', async () => {
 });
 ```
 
+#### 4. CompaniesService.spec.ts ⭐ **NOVO**
+**Localização**: `src/companies/companies.service.spec.ts`
+**Testes**: 20 testes
+**Cobertura**:
+- ✅ Criação de empresas com validação de unicidade (CNPJ, CPF, email)
+- ✅ Operações CRUD completas
+- ✅ Criptografia de senhas com bcrypt
+- ✅ Validação de integridade referencial (funcionários vinculados)
+- ✅ Tratamento de conflitos e exceções
+- ✅ Busca por CNPJ e email
+
+**Principais Cenários**:
+```typescript
+// Exemplo de criação de empresa
+it('should create a company successfully', async () => {
+  const result = await service.create(createCompanyDto);
+  expect(result).not.toHaveProperty('senha');
+  expect(result.email).toBe('joao@empresa.com');
+});
+```
+
+#### 5. EmployeesService.spec.ts ⭐ **NOVO**
+**Localização**: `src/employees/employees.service.spec.ts`
+**Testes**: 25 testes
+**Cobertura**:
+- ✅ Criação de funcionários com validação de empresa
+- ✅ Validação de unicidade (CPF, email)
+- ✅ Operações CRUD com relacionamentos
+- ✅ Validação de integridade referencial (empréstimos vinculados)
+- ✅ Busca por CPF, email e empresa
+- ✅ Tratamento de tipos Decimal para salário
+
+**Principais Cenários**:
+```typescript
+// Exemplo de criação de funcionário
+it('should create an employee successfully', async () => {
+  const result = await service.create(createEmployeeDto);
+  expect(result).not.toHaveProperty('senha');
+  expect(result.company).toBeDefined();
+});
+```
+
 ### 🔧 Configuração dos Testes
 
 #### Mocks Implementados
@@ -130,10 +172,54 @@ Todos os testes foram implementados seguindo as melhores práticas:
 ### 📈 Resultado Final
 
 ```
-Test Suites: 5 passed, 5 total
-Tests:       47 passed, 47 total
+Test Suites: 7 passed, 7 total
+Tests:       92 passed, 92 total
 Snapshots:   0 total
-Time:        1.34s
+Time:        1.909s
 ```
 
-**Status**: ✅ Implementação completa e funcional dos testes unitários para o desafio técnico da Credifit.
+**Status**: ✅ Implementação completa e funcional dos testes unitários para todos os serviços do backend do desafio técnico da Credifit.
+
+## 🎯 Cobertura Completa de Testes
+
+### Serviços Testados:
+1. **ScoreService** - Validação de score de crédito
+2. **PaymentService** - Processamento de pagamentos
+3. **LoansService** - Gestão de empréstimos
+4. **CompaniesService** - Gestão de empresas
+5. **EmployeesService** - Gestão de funcionários
+6. **PrismaService** - Serviço de banco de dados
+7. **AppController** - Controller principal
+
+### Tipos de Testes Implementados:
+- ✅ **Testes Unitários**: Isolamento de cada serviço
+- ✅ **Testes de Integração**: Interação entre serviços
+- ✅ **Testes de Validação**: Regras de negócio
+- ✅ **Testes de Exceção**: Tratamento de erros
+- ✅ **Testes de Mocking**: Simulação de dependências
+
+### Cenários Cobertos:
+- ✅ Criação, leitura, atualização e exclusão (CRUD)
+- ✅ Validações de entrada e constraintes de unicidade
+- ✅ Integridade referencial entre entidades
+- ✅ Criptografia de senhas e segurança
+- ✅ Cálculos de negócio (margem, score, parcelas)
+- ✅ Simulação de APIs externas
+- ✅ Tratamento de tipos complexos (Decimal, Date)
+
+## 🏆 Qualidade dos Testes
+
+### Melhores Práticas Aplicadas:
+1. **Isolamento**: Cada teste é independente
+2. **Mocking**: Dependências externas simuladas
+3. **Cobertura**: Cenários positivos e negativos
+4. **Tipagem**: TypeScript completo nos testes
+5. **Documentação**: Testes autodocumentados
+6. **Performance**: Execução rápida (< 2 segundos)
+
+### Ferramentas e Tecnologias:
+- **Jest**: Framework de testes principal
+- **@nestjs/testing**: Módulo de testes do NestJS
+- **bcrypt mocking**: Simulação de criptografia
+- **Prisma mocking**: Simulação do ORM
+- **TypeScript**: Tipagem estática completa
